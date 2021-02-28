@@ -99,7 +99,7 @@ In order to enable its own error pages, the component has a context that has the
 
 ### Available console redirects
 
-If a console command is routed to the DB, output in productive use is also prevented at the same time. However, what is saved in the IndexedDB is decided by the set log level. Default log level of the component is ** warn **
+If a console command is routed to the DB, output in productive use is also prevented at the same time. However, what is saved in the IndexedDB is decided by the set log level. Default log level of the component is **warn**
 
 ## The following console methods can be used:
 
@@ -117,7 +117,7 @@ console.error();
 | all       | x           | x            | x            | x             | x                   |
 | info      |             | x            | x            | x             | x                   |
 | warn      |             |              | x            | x             | x                   |
-| error     |             |              |              |               | x                   |
+| error     |             |              |              | x             | x                   |
 
 ## To disable console output use the console property
 
@@ -133,6 +133,26 @@ const MyErrorPage = () => {
 export default function App() {
   return (
     <ReactPwaLogger console={['log', 'info', 'warn', 'error']}>
+      <Router>
+        <Main />
+      </Router>
+    </ReactPwaLogger>
+  );
+}
+```
+
+## Change log level
+
+```typescript
+import { ReactPwaLogger } from "ReactPwaLogger";
+
+const MyErrorPage = () => {
+    return ...
+}
+
+export default function App() {
+  return (
+    <ReactPwaLogger logLevel='error'>
       <Router>
         <Main />
       </Router>
