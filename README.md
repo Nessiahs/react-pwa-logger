@@ -36,6 +36,9 @@ export const Main = () => {
 }
 ```
 
+This hook creates on every location change a entry in the history table with the current time and location.href.
+This feature is helpful to detect locations manupulation.
+
 ## Features
 
 Either an individual error page can be transferred to the ReactPwaLogger or the content of the default page can be changed via config.
@@ -159,4 +162,31 @@ export default function App() {
     </ReactPwaLogger>
   );
 }
+```
+
+## How to use in your modules
+
+if you don't want to throw an error in your module, use the console redirects.
+
+```typescript
+const param = {
+  user: 1,
+  role: "admin",
+};
+const result = await axios.get("/users");
+
+if (response.data === []) {
+  console.info("Server response was empty", param);
+}
+```
+
+If you now use the log level info a entry in the info db will created with:
+
+```
+message: "Server response was empty",
+extras: {
+  user: 1,
+  role: "admin",
+}
+
 ```
