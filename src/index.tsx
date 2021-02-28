@@ -43,7 +43,10 @@ const defaultConfig: TLoggerConfig = {
     "An error was detected at the page. To help your developer, download the file and send it to:",
 };
 
-export class Logger extends React.Component<TLoggerProps, TLoggerState> {
+export class ReactPwaLogger extends React.Component<
+  TLoggerProps,
+  TLoggerState
+> {
   state: TLoggerState;
   private openCount = 10;
   private timer = 0;

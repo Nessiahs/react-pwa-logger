@@ -1,4 +1,4 @@
-# react-pwa-logger
+# react-pwa-ReactPwaLogger
 
 Is a React component that globally catches all errors and stores the error in an IndexedDB. If an error is caught, a global error page is delivered.
 The default error page has a trigger to trigger a popover, which then allows the error dump to be sent as an email.
@@ -12,22 +12,23 @@ For people who create a PWA and also want to track errors that occur in offline 
 ## How to use
 
 ```typescript
-import { Logger } from "Logger";
+import { ReactPwaLogger } from "ReactPwaLogger";
 export default function App() {
   return (
-    <Logger>
+    <ReactPwaLogger>
       <Router>
         <Main />
       </Router>
-    </Logger>
+    </ReactPwaLogger>
   );
 }
 ```
 
 if you want to use the history module you must add the useReactRouter hook in your <Main/>
+At this moment i provide only a hook for React-Router
 
 ```typescript
-import { useReactRouter } from "Logger/hooks";
+import { useReactRouter } from "ReactPwaLogger/hooks";
 
 export const Main = () => {
     useReactRouter()
@@ -37,15 +38,15 @@ export const Main = () => {
 
 ## Features
 
-Either an individual error page can be transferred to the logger or the content of the default page can be changed via config.
+Either an individual error page can be transferred to the ReactPwaLogger or the content of the default page can be changed via config.
 
 ### Changed by config
 
 ```typescript
-import { Logger } from "Logger";
+import { ReactPwaLogger } from "ReactPwaLogger";
 export default function App() {
   return (
-    <Logger
+    <ReactPwaLogger
       config={{
         projectName: "My fancy project",
         mailTo: "devs@example.com",
@@ -56,7 +57,7 @@ export default function App() {
       <Router>
         <Main />
       </Router>
-    </Logger>
+    </ReactPwaLogger>
   );
 }
 ```
@@ -64,7 +65,7 @@ export default function App() {
 ### Own error component
 
 ```typescript
-import { Logger } from "Logger";
+import { ReactPwaLogger } from "ReactPwaLogger";
 
 const MyErrorPage = () => {
     return ...
@@ -72,11 +73,11 @@ const MyErrorPage = () => {
 
 export default function App() {
   return (
-    <Logger errorPage={<MyErrorPage>}>
+    <ReactPwaLogger errorPage={<MyErrorPage>}>
       <Router>
         <Main />
       </Router>
-    </Logger>
+    </ReactPwaLogger>
   );
 }
 ```
@@ -123,7 +124,7 @@ console.error();
 Disable all posible console output
 
 ```typescript
-import { Logger } from "Logger";
+import { ReactPwaLogger } from "ReactPwaLogger";
 
 const MyErrorPage = () => {
     return ...
@@ -131,11 +132,11 @@ const MyErrorPage = () => {
 
 export default function App() {
   return (
-    <Logger console={['log', 'info', 'warn', 'error']}>
+    <ReactPwaLogger console={['log', 'info', 'warn', 'error']}>
       <Router>
         <Main />
       </Router>
-    </Logger>
+    </ReactPwaLogger>
   );
 }
 ```
