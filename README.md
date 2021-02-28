@@ -95,3 +95,47 @@ In order to enable its own error pages, the component has a context that has the
   consoleText: string | React.ReactNode;
 }
 ```
+
+### Available console redirects
+
+If a console command is routed to the DB, output in productive use is also prevented at the same time. However, what is saved in the IndexedDB is decided by the set log level. Default log level of the component is ** warn **
+
+## The following console methods can be used:
+
+```typescript
+console.info();
+console.log();
+console.warn();
+console.error();
+```
+
+## Stored information by log level:
+
+| log level | console.log | console.info | console.warn | console.error | catched scriptError |
+| --------- | ----------- | ------------ | ------------ | ------------- | ------------------- |
+| all       | x           | x            | x            | x             | x                   |
+| info      |             | x            | x            | x             | x                   |
+| warn      |             |              | x            | x             | x                   |
+| error     |             |              |              |               | x                   |
+
+## To disable console output use the console property
+
+Disable all posible console output
+
+```typescript
+import { Logger } from "Logger";
+
+const MyErrorPage = () => {
+    return ...
+}
+
+export default function App() {
+  return (
+    <Logger console={['log', 'info', 'warn', 'error']}>
+      <Router>
+        <Main />
+      </Router>
+    </Logger>
+  );
+}
+```
