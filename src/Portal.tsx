@@ -1,6 +1,5 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import "../sass/console.scss";
 
 export type TPortalProps = {
   isOpen: boolean;
