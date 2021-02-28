@@ -1,14 +1,13 @@
 # react-pwa-logger
 
-Ist eine React-Komponente, die Global alle Fehler catched und den Fehler in einer IndexedDB hinterlegt. Falls ein Fehler abgefangen wird, wird eine Globale Error-Page ausgeliefert.
-Die Default Error-Page hat einen Trigger um ein Popover zu triggern, welches es dann erlaubt den Error-Dump als Email zu versenden.
+Is a React component that globally catches all errors and stores the error in an IndexedDB. If an error is caught, a global error page is delivered.
+The default error page has a trigger to trigger a popover, which then allows the error dump to be sent as an email.
 
-Weiterhin kannst Du auch gewisse console Methoden in die Db umleiten. In der Produktiv App wird dann der Inhalt in die IndexedDB geschrieben und mit dem Dump verfügbar gemacht.
+You can also redirect certain console methods to the db. In the productive app, the content is then written to the IndexedDB and made available with the dump.
 
-## Für wen ist dieses Modul gedacht:
+## Who is this module for?
 
-Für Leute die eine PWA erstellen und auch Fehler, die im Offline-Mode auftreten tracken wollen. Oder Ihr habt eine App, die keine Verbindung zum Internet hat. Auf keinen Fall sollte
-diese Komponente auf einer normalen Webseite eingesetzt werden.
+For people who create a PWA and also want to track errors that occur in offline mode. Or you have an app that is not connected to the internet. Under no circumstances should this component be used on a normal website.
 
 ## How to use
 
@@ -38,7 +37,9 @@ export const Main = () => {
 
 ## Features
 
-Dem Logger kann entweder eine Individuelle Error-Page mit übergeben werden oder der Inhalt der Default-Page per config geändert werden. l
+Either an individual error page can be transferred to the logger or the content of the default page can be changed via config.
+
+### Changed by config
 
 ```typescript
 import { Logger } from "Logger";
@@ -57,5 +58,40 @@ export default function App() {
       </Router>
     </Logger>
   );
+}
+```
+
+### Own error component
+
+```typescript
+import { Logger } from "Logger";
+
+const MyErrorPage = () => {
+    return ...
+}
+
+export default function App() {
+  return (
+    <Logger errorPage={<MyErrorPage>}>
+      <Router>
+        <Main />
+      </Router>
+    </Logger>
+  );
+}
+```
+
+### Context options
+
+In order to enable its own error pages, the component has a context that has the following content:
+
+```typescript
+{
+  triggerOpen: () => void;
+  closeConsole: () => void;
+  projectName: string;
+  mailTo: string;
+  emailSubject: string;
+  consoleText: string | React.ReactNode;
 }
 ```
