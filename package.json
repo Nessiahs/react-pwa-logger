@@ -29,9 +29,10 @@
     "typescript": "^4.2.2"
   },
   "scripts": {
-    "prepare": "rm -rf ./lib",
+    "clean": "rm -rf ./lib",
     "scss": "node-sass ./scss/console.scss ./lib/css/logger.css",
     "copy": "mkdir ./lib/scss && cp ./scss/console.scss ./lib/scss/logger.scss",
-    "build": "yarn prepare && tsc && yarn scss && yarn copy"
+    "prepare": "yarn clean && tsc && yarn scss && yarn copy",
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
