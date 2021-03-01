@@ -1,10 +1,15 @@
 import * as React from "react";
-import { ErrorContext } from ".";
 import { dump } from "./dump";
+import { ErrorContext } from "./PwaLogger";
 
 export const DebugConsole: React.FunctionComponent = () => {
   const context = React.useContext(ErrorContext);
 
+  let customDump = () => null;
+
+  if (context.dumper && typeof context.dumper === "function") {
+    customDump = context.dumper;
+  }
   return (
     <>
       <div className="js-logger-header">
@@ -22,7 +27,7 @@ export const DebugConsole: React.FunctionComponent = () => {
           {context.mailTo}
         </a>
         <p>
-          <button onClick={() => dump()}>Download</button>
+          <button onClick={() => dump(customDump)}>Download</button>
         </p>
       </div>
     </>
