@@ -1,0 +1,28 @@
+.js-debug-console {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2147483647;
+  min-height: 200px;
+  padding: 5px;
+}
+
+.js-logger-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.js-logger-close {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  cursor: pointer;
+  &:hover {
+    background-color: #d3d3d3;
+    border: 1px solid c0c0c0;
+    border-radius: 5px;
+  }
+}
