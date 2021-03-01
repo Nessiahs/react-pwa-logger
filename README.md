@@ -1,4 +1,4 @@
-# react-pwa-PwaLogger
+# react-pwa-logger
 
 Is a React component that globally catches all errors and stores the error in an IndexedDB. If an error is caught, a global error page is delivered.
 The default error page has a trigger to trigger a popover, which then allows the error dump to be sent as an email.
