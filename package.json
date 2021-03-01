@@ -1,5 +1,5 @@
 {
-  "name": "react-pwa-logger",
+  "name": "pwa-logger",
   "version": "1.0.0",
   "description": "A offline logger for pwa",
   "main": "./lib/index.js",
