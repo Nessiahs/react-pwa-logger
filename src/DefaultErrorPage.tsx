@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ErrorContext } from "./PwaLogger";
+import { ErrorContext } from ".";
 
 export const DefaultErrorPage = () => {
   const errorCallbacks = React.useContext(ErrorContext);

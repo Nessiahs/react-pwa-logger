@@ -1,6 +1,6 @@
 import * as React from "react";
+import { ErrorContext } from ".";
 import { dump } from "./dump";
-import { ErrorContext } from "./PwaLogger";
 
 export const DebugConsole: React.FunctionComponent = () => {
   const context = React.useContext(ErrorContext);

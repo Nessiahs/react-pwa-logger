@@ -3,7 +3,10 @@ import { ConsoleReplace, TConsoleOverwrite } from "./ConsoleReplace";
 import { dbLogger, TLogLevel } from "./DbLogger";
 import { DebugConsole } from "./DebugConsole";
 import { ErrorPage } from "./ErrorPage";
+import { useReactRouter as _useReactRouter } from "./hooks/useReactRouter";
 import { Portal } from "./Portal";
+
+export const useReactRouter = _useReactRouter;
 
 export type TLoggerState = {
   hasError: boolean;
