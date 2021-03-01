@@ -17,6 +17,7 @@ export type TLoggerProps = {
   openCount?: number;
   config?: TLoggerConfig;
   logLevel?: TLogLevel;
+  dumper?: TErrorContextProps["dumper"];
 };
 
 export type TLoggerConfig = {
@@ -29,6 +30,7 @@ export type TLoggerConfig = {
 export type TErrorContextProps = {
   triggerOpen: () => void;
   closeConsole: () => void;
+  dumper: () => any;
 } & TLoggerConfig;
 
 export const ErrorContext = React.createContext<Partial<TErrorContextProps>>(
@@ -49,6 +51,7 @@ export class PwaLogger extends React.Component<TLoggerProps, TLoggerState> {
   private timer = 0;
   private readonly config: TLoggerConfig;
   private readonly logLevel: TLogLevel = "warn";
+  private readonly dumper: TErrorContextProps["dumper"];
 
   private readonly errorPage: React.ReactNode | undefined;
 
@@ -64,6 +67,12 @@ export class PwaLogger extends React.Component<TLoggerProps, TLoggerState> {
 
     if (props.errorPage) {
       this.errorPage = props.errorPage;
+    }
+
+    if (props.dumper && typeof props.dumper === "function") {
+      this.dumper = props.dumper;
+    } else {
+      this.dumper = () => null;
     }
 
     if (typeof props.openCount === "number") {
@@ -107,6 +116,7 @@ export class PwaLogger extends React.Component<TLoggerProps, TLoggerState> {
         value={{
           triggerOpen: () => this.countOpen(),
           closeConsole: () => this.closeConsole(),
+          dumper: () => this.dumper(),
           ...this.config,
         }}>
         {this.state.hasError === true ? (
