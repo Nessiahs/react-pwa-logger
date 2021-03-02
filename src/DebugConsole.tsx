@@ -2,6 +2,7 @@ import * as React from "react";
 import { ErrorContext } from ".";
 import { dump } from "./dump";
 
+
 export const DebugConsole: React.FunctionComponent = () => {
   const context = React.useContext(ErrorContext);
 
