@@ -2,6 +2,7 @@ import * as React from "react";
 import { ConsoleReplace, TConsoleOverwrite } from "./ConsoleReplace";
 import { dbLogger, TLogLevel } from "./DbLogger";
 import { DebugConsole } from "./DebugConsole";
+import { dump } from "./dump";
 import { ErrorPage } from "./ErrorPage";
 import { useReactRouter as _useReactRouter } from "./hooks/useReactRouter";
 import { Portal } from "./Portal";
@@ -21,6 +22,7 @@ export type TLoggerProps = {
   config?: TLoggerConfig;
   logLevel?: TLogLevel;
   dumper?: TErrorContextProps["dumper"];
+  debugConsole?: React.ReactNode;
 };
 
 export type TLoggerConfig = {
@@ -34,7 +36,9 @@ export type TErrorContextProps = {
   triggerOpen: () => void;
   closeConsole: () => void;
   dumper: () => any;
+  isOpen: boolean;
 } & TLoggerConfig;
+
 
 export const ErrorContext = React.createContext<Partial<TErrorContextProps>>(
   {}
@@ -52,6 +56,7 @@ export class PwaLogger extends React.Component<TLoggerProps, TLoggerState> {
   state: TLoggerState;
   private openCount = 10;
   private timer = 0;
+  private readonly debugConsole
   private readonly config: TLoggerConfig;
   private readonly logLevel: TLogLevel = "warn";
   private readonly dumper: TErrorContextProps["dumper"];
@@ -82,6 +87,12 @@ export class PwaLogger extends React.Component<TLoggerProps, TLoggerState> {
       this.openCount = props.openCount;
     }
 
+    if(props.debugConsole) {
+      this.debugConsole = props.debugConsole
+    } else {
+      this.debugConsole = <DebugConsole />
+    }
+
     dbLogger.setLogLevel(props.logLevel ?? this.logLevel);
 
     if (props.console) {
@@ -100,7 +111,9 @@ export class PwaLogger extends React.Component<TLoggerProps, TLoggerState> {
     this.setState({ openCount: this.state.openCount + 1 });
 
     if (this.openCount === this.state.openCount) {
-      this.setState({ isOpen: true });
+      this.setState({ isOpen: true, openCount: 0 });
+      return;
+    } else if(this.state.isOpen === true) {
       return;
     }
 
@@ -119,7 +132,8 @@ export class PwaLogger extends React.Component<TLoggerProps, TLoggerState> {
         value={{
           triggerOpen: () => this.countOpen(),
           closeConsole: () => this.closeConsole(),
-          dumper: () => this.dumper(),
+          dumper: () => dump(this.dumper),
+          isOpen: this.state.isOpen,
           ...this.config,
         }}>
         {this.state.hasError === true ? (
@@ -128,7 +142,7 @@ export class PwaLogger extends React.Component<TLoggerProps, TLoggerState> {
           this.props.children
         )}
         <Portal isOpen={this.state.isOpen}>
-          <DebugConsole />
+          {this.debugConsole}
         </Portal>
       </ErrorContext.Provider>
     );

@@ -24,11 +24,30 @@ export default function App() {
 }
 ```
 
+## Params for the component
+
+```typescript
+export type TLoggerProps = {
+  console?: ["log" | "warn" | "error" | "info"];
+  errorPage?: React.ReactNode; // default component error page
+  openCount?: number; // default 10
+  config?: {
+    projectName: string;
+    mailTo: string;
+    emailSubject: string;
+    consoleText: string | React.ReactNode;
+  };
+  logLevel?: "warn" | "error" | "info" | "all"; // default warn
+  dumper?: () => void; // default () => null
+  debugConsole?: React.ReactNode;
+};
+```
+
 if you want to use the history module you must add the useReactRouter hook in your <Main/>
 At this moment i provide only a hook for React-Router
 
 ```typescript
-import { useReactRouter } from "pwa-logger/hooks";
+import { useReactRouter } from "pwa-logger";
 
 export const Main = () => {
     useReactRouter()
@@ -65,6 +84,44 @@ export default function App() {
 }
 ```
 
+### Context options
+
+In order to enable its own error pages, the component has a context that has the following content:
+
+```typescript
+{
+  triggerOpen: () => void;// Trigger to open the console
+  closeConsole: () => void;// callback to close the console
+  dumper: () => any;   // a custom function to extend the dump
+  projectName: string;
+  mailTo: string;
+  emailSubject: string;
+  consoleText: string | React.ReactNode;
+  isOpen: boolean; // open state for debug console
+}
+```
+
+### Own console
+
+```typescript
+import { PwaLogger } from "pwa-logger";
+
+const MyConsolePage = () => {
+    const context = React.useContext(ErrorContext);
+    return ...
+}
+
+export default function App() {
+  return (
+    <PwaLogger debugConsole={<MyconsolePage>}>
+      <Router>
+        <Main />
+      </Router>
+    </PwaLogger>
+  );
+}
+```
+
 ### Own error component
 
 ```typescript
@@ -82,21 +139,6 @@ export default function App() {
       </Router>
     </PwaLogger>
   );
-}
-```
-
-### Context options
-
-In order to enable its own error pages, the component has a context that has the following content:
-
-```typescript
-{
-  triggerOpen: () => void;
-  closeConsole: () => void;
-  projectName: string;
-  mailTo: string;
-  emailSubject: string;
-  consoleText: string | React.ReactNode;
 }
 ```
 

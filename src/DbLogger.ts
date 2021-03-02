@@ -1,5 +1,5 @@
 import Dexie from "dexie";
-
+import { exportDB } from "dexie-export-import";
 export interface IConsoleLog {
   id?: number;
   page_id: number;
@@ -134,10 +134,7 @@ class DbLogger extends Dexie {
   }
 
   async insert(type: TInsertTypes, message: any, ...optionalParams: any[]) {
-    if (
-      process.env.NODE_ENV !== "production" ||
-      logIncludes[this.logLevel].includes(type) === false
-    ) {
+    if (logIncludes[this.logLevel].includes(type) === false) {
       return;
     }
     switch (type) {
@@ -183,9 +180,6 @@ class DbLogger extends Dexie {
     stack: Error["stack"],
     info: React.ErrorInfo
   ) {
-    if (process.env.NODE_ENV === "development") {
-      return;
-    }
     await this.scriptError.add({
       page_id: this.pageId,
       time: this.getDate(),
@@ -210,6 +204,10 @@ class DbLogger extends Dexie {
       warning: await this.warning.toArray(),
       info: await this.info.toArray(),
     };
+  }
+
+  exportDB() {
+    return exportDB(this);
   }
 }
 
