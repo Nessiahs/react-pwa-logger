@@ -14,7 +14,7 @@ export const dump = async (dumper: () => any) => {
     custom: dumper(),
   };
 
-  const content = "data:text/json;charset=utf-8,"+ encodeURIComponent(JSON.stringify(data))
+  const content = "data:text/json;charset=utf-8,"+ encodeURIComponent(JSON.stringify(data));
   const anker = document.createElement("a");
   anker.setAttribute("href", content);
   anker.setAttribute("download", "debug.json");
