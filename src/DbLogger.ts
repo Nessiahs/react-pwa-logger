@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import Dexie from "dexie";
 import { exportDB } from "dexie-export-import";
 export interface IConsoleLog {
@@ -239,5 +240,5 @@ class DbLogger extends Dexie {
     return exportDB(this);
   }
 }
-
+/* eslint-enable camelcase */
 export const dbLogger = new DbLogger();
