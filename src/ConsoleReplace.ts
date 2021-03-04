@@ -9,9 +9,7 @@ const consoleBackup: {
 export const ConsoleReplace = (
   toOverwrite: TConsoleOverwrite[] | TConsoleOverwrite
 ) => {
-  if (process.env.NODE_ENV !== "production") {
-    return;
-  }
+
   if (typeof toOverwrite === "string") {
     toOverwrite = [toOverwrite];
   }

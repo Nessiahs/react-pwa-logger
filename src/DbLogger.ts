@@ -47,16 +47,16 @@ export interface IPagestart {
   url: string;
 }
 
-export type TLogLevel = keyof typeof logIncludes;
-
-export type TInsertTypes = "log" | "error" | "warn" | "info";
-
 const logIncludes = {
   all: ["log", "info", "warn", "error"],
   info: ["info", "warn", "error"],
   warn: ["warn", "error"],
   error: ["error"],
 };
+
+export type TLogLevel = keyof typeof logIncludes;
+
+export type TInsertTypes = "log" | "error" | "warn" | "info";
 
 class DbLogger extends Dexie {
   private log: Dexie.Table<IConsoleLog, number>;
@@ -97,33 +97,69 @@ class DbLogger extends Dexie {
 
   private getDate() {
     const date = new Date();
-    let month = `${date.getMonth() + 1}`; //js month starts with 0 for January
-    let day = `${date.getDate()}`;
-    let hours = `${date.getHours()}`;
-    let minutes = `${date.getMinutes()}`;
+
+    return (
+      date.getFullYear() +
+      "-" +
+      this.getMonth(date) +
+      "-" +
+      this.getDay(date) +
+      "-" +
+      this.getHours(date) +
+      "-" +
+      this.getMinutes(date) +
+      "-" +
+      this.getSeconds(date)
+    );
+  }
+
+  private getSeconds(date: Date) {
     let seconds = `${date.getSeconds()}`;
-
-    if (month.length === 1) {
-      month = `0${month}`;
-    }
-
-    if (day.length === 1) {
-      day = `0${day}`;
-    }
-
-    if (hours.length === 1) {
-      hours = `0${hours}`;
-    }
-
-    if (minutes.length === 1) {
-      minutes = `0${minutes}`;
-    }
 
     if (seconds.length === 1) {
       seconds = `0${seconds}`;
     }
 
-    return `${date.getFullYear()}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return seconds;
+  }
+
+  private getMinutes(date: Date) {
+    let minutes = `${date.getMinutes()}`;
+    if (minutes.length === 1) {
+      minutes = `0${minutes}`;
+    }
+
+    return minutes;
+  }
+
+  private getMonth(date: Date) {
+    let month = `${date.getMonth() + 1}`; //js month starts with 0 for January
+
+    if (month.length === 1) {
+      month = `0${month}`;
+    }
+
+    return month;
+  }
+
+  private getDay(date: Date) {
+    let day = `${date.getDate()}`;
+
+    if (day.length === 1) {
+      day = `0${day}`;
+    }
+
+    return day;
+  }
+
+  getHours(date: Date) {
+    let hours = `${date.getHours()}`;
+
+    if (hours.length === 1) {
+      hours = `0${hours}`;
+    }
+
+    return hours;
   }
 
   async setPageId() {
@@ -137,38 +173,31 @@ class DbLogger extends Dexie {
     if (logIncludes[this.logLevel].includes(type) === false) {
       return;
     }
+
+    const logData = {
+      page_id: this.pageId,
+      time: this.getDate(),
+      message: JSON.stringify(message),
+      extras: JSON.stringify(optionalParams),
+    };
+
     switch (type) {
       case "error":
         await this.error.add({
-          page_id: this.pageId,
-          time: this.getDate(),
-          message: JSON.stringify(message),
+          page_id: logData.page_id,
+          time: logData.time,
+          message: logData.message,
           callstack: JSON.stringify(optionalParams),
         });
         break;
       case "log":
-        this.log.add({
-          page_id: this.pageId,
-          time: this.getDate(),
-          message: JSON.stringify(message),
-          extras: JSON.stringify(optionalParams),
-        });
+        this.log.add(logData);
         break;
       case "warn":
-        this.warning.add({
-          page_id: this.pageId,
-          time: this.getDate(),
-          message: JSON.stringify(message),
-          extras: JSON.stringify(optionalParams),
-        });
+        this.warning.add(logData);
         break;
       case "info":
-        this.info.add({
-          page_id: this.pageId,
-          time: this.getDate(),
-          message: JSON.stringify(message),
-          extras: JSON.stringify(optionalParams),
-        });
+        this.info.add(logData);
         break;
       default:
         throw new Error(`Can't find a db for ${type}`);

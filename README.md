@@ -7,7 +7,7 @@ The default error page has a trigger to trigger a popover, which then allows the
 
 You can also redirect certain console methods to the db. In the productive app, the content is then written to the IndexedDB and made available with the dump.
 
-## Who is this module for?
+## Who is this module for
 
 For people who create a PWA and also want to track errors that occur in offline mode. Or you have an app that is not connected to the internet. Under no circumstances should this component be used on a normal website.
 
@@ -148,7 +148,7 @@ export default function App() {
 
 If a console command is routed to the DB, output in productive use is also prevented at the same time. However, what is saved in the IndexedDB is decided by the set log level. Default log level of the component is **warn**
 
-## The following console methods can be used:
+## The following console methods can be used
 
 ```typescript
 console.info();
@@ -157,7 +157,7 @@ console.warn();
 console.error();
 ```
 
-## Stored information by log level:
+## Stored information by log level
 
 | log level | console.log | console.info | console.warn | console.error | catched scriptError |
 | --------- | ----------- | ------------ | ------------ | ------------- | ------------------- |
@@ -226,7 +226,7 @@ if (response.data === []) {
 
 If you now use the log level info a entry in the info db will created with:
 
-```
+```typescript
 message: "Server response was empty",
 extras: {
   user: 1,
