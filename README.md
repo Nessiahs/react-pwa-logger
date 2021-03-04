@@ -1,5 +1,7 @@
 # react-pwa-logger
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3cf2899f1a644871870dafdad1dcb799)](https://app.codacy.com/gh/Nessiahs/react-pwa-logger?utm_source=github.com&utm_medium=referral&utm_content=Nessiahs/react-pwa-logger&utm_campaign=Badge_Grade_Settings)
+
 Is a React component that globally catches all errors and stores the error in an IndexedDB. If an error is caught, a global error page is delivered.
 The default error page has a trigger to trigger a popover, which then allows the error dump to be sent as an email.
 
